@@ -34,7 +34,9 @@ class AsyncBaseRepository(Generic[ModelType]):
         await self.db_session.refresh(instance)
         return instance
 
-    async def update_one(self, model: ModelType, update_fields: list[ModelFields]) -> ModelType:
+    async def update_one(
+        self, model: ModelType, update_fields: list[ModelFields]
+    ) -> ModelType:
         for f in update_fields:
             setattr(model, f.field.key, f.value)
         await self.db_session.flush()
@@ -64,9 +66,7 @@ class AsyncBaseRepository(Generic[ModelType]):
         await self.db_session.delete(model)
 
     async def delete_many(self, filter_fields: list[ModelFields]) -> int:
-        query = delete(self.model_class).where(
-            *[f.as_statement for f in filter_fields]
-        )
+        query = delete(self.model_class).where(*[f.as_statement for f in filter_fields])
         result = await self.db_session.execute(query)
 
         if result.rowcount == 0:
@@ -75,14 +75,20 @@ class AsyncBaseRepository(Generic[ModelType]):
         return result.rowcount
 
     async def exists(self, filter_fields: list[ModelFields]) -> bool:
-        query = select(self.model_class).where(*[f.as_statement for f in filter_fields]).limit(1)
+        query = (
+            select(self.model_class)
+            .where(*[f.as_statement for f in filter_fields])
+            .limit(1)
+        )
         result = await self.db_session.execute(query)
         return result.scalar_one_or_none() is not None
 
-    async def get_one(self, filter_fields: list[ModelFields], joins: list[QueryableAttribute] | None = None,) -> ModelType:
-        query = select(self.model_class).where(
-            *[f.as_statement for f in filter_fields]
-        )
+    async def get_one(
+        self,
+        filter_fields: list[ModelFields],
+        joins: list[QueryableAttribute] | None = None,
+    ) -> ModelType:
+        query = select(self.model_class).where(*[f.as_statement for f in filter_fields])
 
         if joins is not None:
             query = query.options(*[joinedload(j) for j in joins])
@@ -114,4 +120,3 @@ class AsyncBaseRepository(Generic[ModelType]):
 
         result = await self.db_session.execute(query)
         return result.unique().scalars().all()
-
