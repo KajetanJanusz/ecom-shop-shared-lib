@@ -11,7 +11,7 @@ from shared.brokers.clients.base import TopicEntry
 from shared.brokers.events.base import BrokerTopics
 
 
-class TestTopic(BrokerTopics):
+class Topic(BrokerTopics):
     ORDER = "test-topic"
 
 
@@ -47,7 +47,7 @@ class TestAsyncKafkaClient:
         # Arrange
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
         kafka_client.consumer = AsyncMock()
         kafka_client.consumer.poll = AsyncMock(side_effect=asyncio.CancelledError())
@@ -57,15 +57,15 @@ class TestAsyncKafkaClient:
             await kafka_client.consume(topic_handlers)
 
         # Assert
-        kafka_client.consumer.subscribe.assert_called_once_with([TestTopic.ORDER])
+        kafka_client.consumer.subscribe.assert_called_once_with([Topic.ORDER])
 
     async def test_consume_calls_handler_with_validated_message(self, kafka_client):
         # Arrange
         payload = Message(message="test", identifier=uuid.uuid4())
-        mock_msg = self._make_message(TestTopic.ORDER, payload)
+        mock_msg = self._make_message(Topic.ORDER, payload)
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
         kafka_client.consumer = AsyncMock()
         kafka_client.consumer.poll = AsyncMock(
@@ -85,16 +85,16 @@ class TestAsyncKafkaClient:
         ("topic", "body", "error"),
         [
             pytest.param(None, None, None, id="none_message"),
-            pytest.param(TestTopic.ORDER, b"x", "broker error", id="errored_message"),
+            pytest.param(Topic.ORDER, b"x", "broker error", id="errored_message"),
             pytest.param(
                 "unknown-topic",
                 b'{"message":"x","identifier":"00000000-0000-0000-0000-000000000000"}',
                 None,
                 id="unknown_topic",
             ),
-            pytest.param(TestTopic.ORDER, b"not-json", None, id="invalid_json"),
+            pytest.param(Topic.ORDER, b"not-json", None, id="invalid_json"),
             pytest.param(
-                TestTopic.ORDER, b'{"wrong":"fields"}', None, id="schema_mismatch"
+                Topic.ORDER, b'{"wrong":"fields"}', None, id="schema_mismatch"
             ),
         ],
     )
@@ -111,7 +111,7 @@ class TestAsyncKafkaClient:
             poll_value.value.return_value = body
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
         kafka_client.consumer.poll = AsyncMock(
             side_effect=[poll_value, asyncio.CancelledError()]
@@ -187,9 +187,9 @@ class TestAsyncRabbitClient:
         # Arrange
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [])
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
 
         # Act
@@ -202,9 +202,9 @@ class TestAsyncRabbitClient:
         # Arrange
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [])
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
 
         # Act
@@ -219,9 +219,9 @@ class TestAsyncRabbitClient:
         # Arrange
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [])
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
 
         # Act
@@ -229,16 +229,16 @@ class TestAsyncRabbitClient:
 
         # Assert
         rabbit_client.channel.declare_queue.assert_called_once_with(
-            TestTopic.ORDER, durable=True
+            Topic.ORDER, durable=True
         )
 
     async def test_consume_binds_queue_to_exchange(self, rabbit_client):
         # Arrange
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [])
         mock_exchange = AsyncMock()
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
         rabbit_client.channel.declare_exchange = AsyncMock(return_value=mock_exchange)
@@ -248,17 +248,17 @@ class TestAsyncRabbitClient:
 
         # Assert
         mock_queue.bind.assert_called_once_with(
-            exchange=mock_exchange, routing_key=TestTopic.ORDER
+            exchange=mock_exchange, routing_key=Topic.ORDER
         )
 
     async def test_consume_calls_handler_with_validated_message(self, rabbit_client):
         # Arrange
         payload = Message(message="test", identifier=uuid.uuid4())
         msg = self._make_rabbit_message(payload.model_dump_json().encode())
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [msg])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [msg])
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
 
@@ -282,10 +282,10 @@ class TestAsyncRabbitClient:
     ):
         # Arrange
         msg = self._make_rabbit_message(body)
-        mock_queue = self._make_mock_queue(TestTopic.ORDER, [msg])
+        mock_queue = self._make_mock_queue(Topic.ORDER, [msg])
         handler = AsyncMock()
         topic_handlers = immutabledict(
-            {TestTopic.ORDER: TopicEntry(schema=Message, handler=handler)}
+            {Topic.ORDER: TopicEntry(schema=Message, handler=handler)}
         )
         rabbit_client.channel.declare_queue = AsyncMock(return_value=mock_queue)
 
