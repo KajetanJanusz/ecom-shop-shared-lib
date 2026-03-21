@@ -19,4 +19,3 @@ class OutboxMixin(BaseDbModelMixin):
     status: Mapped[str] = mapped_column(Enum(EventStatus), nullable=False)
     attempts: Mapped[int] = mapped_column(Integer, default=1)
     last_error: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
-
