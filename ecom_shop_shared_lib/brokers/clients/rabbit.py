@@ -22,11 +22,8 @@ class AsyncRabbitClient(AsyncBaseClient):
         self.channel: aio_pika.abc.AbstractChannel | None = None
 
     async def connect(self) -> None:
-        if self.connection is None:
-            self.connection = await aio_pika.connect_robust(self.broker_url)
-
-        if self.channel is None:
-            self.channel = await self.connection.channel()
+        self.connection = await aio_pika.connect_robust(self.broker_url)
+        self.channel = await self.connection.channel()
 
     async def disconnect(self) -> None:
         if not self.connection:
