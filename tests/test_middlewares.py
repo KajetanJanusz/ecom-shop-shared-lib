@@ -9,7 +9,7 @@ from starlette.responses import Response
 
 from shared.middlewares.auth import AuthMiddleware, TokenPayload
 
-_KEY = "test-secret"
+_KEY = "123456789123456789123456789123456789"
 _ALGORITHM = "HS256"
 
 
@@ -90,7 +90,7 @@ class TestAuthMiddleware:
         # Arrange
         token = jwt.encode(
             {"user_id": "u1", "type": "access", "admin": False},
-            "wrong-key",
+            "wrong-key-1234567812345678943124234143",
             algorithm=_ALGORITHM,
         )
         request = _make_request({"Authorization": f"Bearer {token}"})

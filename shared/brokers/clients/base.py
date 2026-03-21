@@ -8,7 +8,7 @@ import orjson
 from immutabledict import immutabledict
 from pydantic import BaseModel, ValidationError
 
-from events.base import BrokerTopics
+from shared.brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 
