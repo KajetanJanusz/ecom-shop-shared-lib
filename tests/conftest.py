@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock
 import pytest
 from brokers.clients.kafka import AsyncKafkaClient
 from brokers.clients.rabbit import AsyncRabbitClient
-from models import Base, User
+from db_models import Base, User
 from repositories import AsyncBaseRepository
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 

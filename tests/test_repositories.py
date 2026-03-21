@@ -3,7 +3,7 @@ import uuid
 import pytest
 from pydantic import BaseModel
 
-from models import User
+from db_models import User
 from exceptions.custom import NotFoundError
 from repositories.base import ModelFields
 
