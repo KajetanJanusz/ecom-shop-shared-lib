@@ -1,9 +1,11 @@
-from brokers.events.base import BrokerEvent, BrokerEvents
-from brokers.events.payment_service.schemas import (
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent, BrokerEvents
+from ecom_shop_shared_lib.brokers.events.payment_service.schemas import (
     PaymentPendingSchema,
     PaymentStatusSchema,
 )
-from brokers.events.payment_service.topics import PaymentServiceTopics
+from ecom_shop_shared_lib.brokers.events.payment_service.topics import (
+    PaymentServiceTopics,
+)
 
 
 class PaymentServiceEvents(BrokerEvents):

@@ -1,9 +1,11 @@
-from brokers.events.base import BrokerEvent, BrokerEvents
-from brokers.events.product_service.schemas import (
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent, BrokerEvents
+from ecom_shop_shared_lib.brokers.events.product_service.schemas import (
     ProductCreatedSchema,
     ProductUpdatedSchema,
 )
-from brokers.events.product_service.topics import ProductServiceTopics
+from ecom_shop_shared_lib.brokers.events.product_service.topics import (
+    ProductServiceTopics,
+)
 
 
 class ProductServiceEvents(BrokerEvents):

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Generic, Sequence, Type, TypeVar
 
 from pydantic import BaseModel
-from exceptions.custom import MultipleResultsError, NotFoundError
+from ecom_shop_shared_lib.exceptions.custom import MultipleResultsError, NotFoundError
 from sqlalchemy import delete, select, update
 from sqlalchemy.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
