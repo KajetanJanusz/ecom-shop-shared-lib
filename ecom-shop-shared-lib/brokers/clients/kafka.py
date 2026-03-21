@@ -2,13 +2,12 @@ import logging
 import uuid
 
 from confluent_kafka import Message
+from confluent_kafka.aio import AIOConsumer, AIOProducer
 from immutabledict import immutabledict
-
-from confluent_kafka.aio import AIOProducer, AIOConsumer
 from pydantic import BaseModel
 
-from shared.brokers.clients.base import AsyncBaseClient, TopicEntry
-from shared.brokers.events.base import BrokerTopics
+from brokers.clients.base import AsyncBaseClient, TopicEntry
+from brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 

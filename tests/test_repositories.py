@@ -4,8 +4,8 @@ import pytest
 from pydantic import BaseModel
 
 from models import User
-from shared.exceptions.custom import NotFoundError
-from shared.repositories.base import ModelFields
+from exceptions.custom import NotFoundError
+from repositories.base import ModelFields
 
 
 class CreateUserSchema(BaseModel):

@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import TypeVar, Generic, Type, Any, Sequence
-from pydantic import BaseModel
-from sqlalchemy import select, update, delete
-from sqlalchemy.exc import NoResultFound, MultipleResultsFound
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import InstrumentedAttribute, joinedload, QueryableAttribute
+from typing import Any, Generic, Sequence, Type, TypeVar
 
-from shared.exceptions.custom import NotFoundError, MultipleResultsError
+from pydantic import BaseModel
+from exceptions.custom import MultipleResultsError, NotFoundError
+from sqlalchemy import delete, select, update
+from sqlalchemy.exc import MultipleResultsFound, NoResultFound
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import InstrumentedAttribute, QueryableAttribute, joinedload
 
 ModelType = TypeVar("ModelType")
 T = TypeVar("T")

@@ -7,8 +7,8 @@ import pytest
 from immutabledict import immutabledict
 from pydantic import BaseModel
 
-from shared.brokers.clients.base import TopicEntry
-from shared.brokers.events.base import BrokerTopics
+from brokers.clients.base import TopicEntry
+from brokers.events.base import BrokerTopics
 
 
 class Topic(BrokerTopics):

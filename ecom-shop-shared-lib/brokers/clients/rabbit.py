@@ -9,8 +9,8 @@ import aio_pika.abc
 from immutabledict import immutabledict
 from pydantic import BaseModel
 
-from shared.brokers.clients.base import AsyncBaseClient, TopicEntry
-from shared.brokers.events.base import BrokerTopics
+from brokers.clients.base import AsyncBaseClient, TopicEntry
+from brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 
