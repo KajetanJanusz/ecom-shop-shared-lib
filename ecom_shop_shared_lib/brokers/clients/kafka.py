@@ -20,21 +20,25 @@ class AsyncKafkaClient(AsyncBaseClient):
         self.consumer: AIOConsumer | None = None
 
     async def connect(self) -> None:
-        self.producer = AIOProducer(
-            producer_conf={
-                "bootstrap.servers": self.broker_url,
-            }
-        )
-        self.consumer = AIOConsumer(
-            {
-                "bootstrap.servers": self.broker_url,
-                "group.id": self.group_id,
-                "auto.offset.reset": "earliest",
-            }
-        )
+        if self.producer is None:
+            self.producer = AIOProducer(
+                producer_conf={
+                    "bootstrap.servers": self.broker_url,
+                }
+            )
+
+        if self.consumer is None:
+            self.consumer = AIOConsumer(
+                {
+                    "bootstrap.servers": self.broker_url,
+                    "group.id": self.group_id,
+                    "auto.offset.reset": "earliest",
+                }
+            )
 
     async def disconnect(self) -> None:
         if self.producer:
+            await self.producer.flush()
             await self.producer.close()
 
         if self.consumer:
@@ -42,7 +46,7 @@ class AsyncKafkaClient(AsyncBaseClient):
 
     async def produce(self, topic: str, key: uuid.UUID, value: BaseModel) -> None:
         if self.producer is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            await self.connect()
 
         await self.producer.produce(
             topic=topic,
@@ -55,7 +59,7 @@ class AsyncKafkaClient(AsyncBaseClient):
         topic_handlers: immutabledict[BrokerTopics, TopicEntry],
     ) -> None:
         if self.consumer is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            await self.connect()
 
         await self.consumer.subscribe(list(topic_handlers.keys()))
 

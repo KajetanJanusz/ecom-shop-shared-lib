@@ -22,8 +22,11 @@ class AsyncRabbitClient(AsyncBaseClient):
         self.channel: aio_pika.abc.AbstractChannel | None = None
 
     async def connect(self) -> None:
-        self.connection = await aio_pika.connect_robust(self.broker_url)
-        self.channel = await self.connection.channel()
+        if self.connection is None:
+            self.connection = await aio_pika.connect_robust(self.broker_url)
+
+        if self.channel is None:
+            self.channel = await self.connection.channel()
 
     async def disconnect(self) -> None:
         if not self.connection:
@@ -35,7 +38,7 @@ class AsyncRabbitClient(AsyncBaseClient):
 
     async def produce(self, topic: str, key: uuid.UUID, value: BaseModel) -> None:
         if self.channel is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            await self.connect()
 
         await self.channel.declare_queue(topic, durable=True)
         await self.channel.default_exchange.publish(
@@ -52,7 +55,7 @@ class AsyncRabbitClient(AsyncBaseClient):
         topic_handlers: immutabledict[BrokerTopics, TopicEntry],
     ) -> None:
         if self.channel is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            await self.connect()
 
         await self.channel.set_qos(prefetch_count=1)
         exchange = await self.channel.declare_exchange(
