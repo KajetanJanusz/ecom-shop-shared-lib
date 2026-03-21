@@ -7,6 +7,6 @@ from ecom_shop_shared_lib.models.outbox_mixin import EventStatus
 
 
 class OutboxSchema(BaseModel):
-    event_type: BrokerTopics
-    status: EventStatus
+    event_topic: BrokerTopics
     payload: dict[str, Any]
+    status: EventStatus
