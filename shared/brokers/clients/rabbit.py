@@ -1,6 +1,8 @@
 import asyncio
 import logging
 import uuid
+from collections.abc import Awaitable, Callable
+from typing import Type
 
 import aio_pika
 import aio_pika.abc
@@ -64,3 +66,19 @@ class AsyncRabbitClient(AsyncBaseClient):
             tasks.append(self._consume_queue(queue, entry.schema, entry.handler))
 
         await asyncio.gather(*tasks)
+
+    async def _consume_queue(
+        self,
+        queue: aio_pika.abc.AbstractQueue,
+        schema: Type[BaseModel],
+        handler: Callable[[BaseModel], Awaitable[None]],
+    ) -> None:
+        async with queue.iterator() as queue_iter:
+            async for message in queue_iter:
+                async with message.process():
+                    await self._process_message(
+                        topic=queue.name,
+                        body=message.body,
+                        schema=schema,
+                        handler=handler,
+                    )

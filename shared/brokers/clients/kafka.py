@@ -29,7 +29,7 @@ class AsyncKafkaClient(AsyncBaseClient):
         self.consumer = AIOConsumer(
             {
                 "bootstrap.servers": self.broker_url,
-                "group_id": self.group_id,
+                "group.id": self.group_id,
                 "auto.offset.reset": "earliest",
             }
         )

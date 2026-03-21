@@ -6,7 +6,7 @@ from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import InstrumentedAttribute, joinedload, QueryableAttribute
 
-from custom import NotFoundError, MultipleResultsError
+from shared.exceptions.custom import NotFoundError, MultipleResultsError
 
 ModelType = TypeVar("ModelType")
 T = TypeVar("T")
@@ -23,9 +23,9 @@ class ModelFields(Generic[T]):
 
 
 class AsyncBaseRepository(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType], db_session: AsyncSession):
+    def __init__(self, model_class: Type[ModelType], db_session: AsyncSession):
         self.db_session = db_session
-        self.model_class: Type[ModelType] = model
+        self.model_class: Type[ModelType] = model_class
 
     async def create(self, schema: BaseModel) -> ModelType:
         instance = self.model_class(**schema.model_dump())

@@ -1,4 +1,4 @@
-from shared.brokers.clients.kafka import AsyncKafkaClient
-from shared.brokers.clients.rabbit import AsyncRabbitClient
+from clients.kafka import AsyncKafkaClient
+from clients.rabbit import AsyncRabbitClient
 
 __all__ = ["AsyncKafkaClient", "AsyncRabbitClient"]
