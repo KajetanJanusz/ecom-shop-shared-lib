@@ -1,5 +1,8 @@
 from shared.brokers.events.base import BrokerEvent, BrokerEvents
-from shared.brokers.events.user_service.schemas import UserCreatedSchema, UserLoggedSchema
+from shared.brokers.events.user_service.schemas import (
+    UserCreatedSchema,
+    UserLoggedSchema,
+)
 from shared.brokers.events.user_service.topics import UserServiceTopics
 
 

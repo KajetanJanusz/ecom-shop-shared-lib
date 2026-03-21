@@ -1,13 +1,11 @@
 from unittest.mock import AsyncMock
 
 import pytest
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-
 from brokers.clients.kafka import AsyncKafkaClient
 from brokers.clients.rabbit import AsyncRabbitClient
 from models import Base, User
 from repositories import AsyncBaseRepository
-
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 
 @pytest.fixture(scope="session")
@@ -33,7 +31,6 @@ async def db_session(async_engine):
 @pytest.fixture
 async def user_repository(db_session) -> AsyncBaseRepository:
     return AsyncBaseRepository(User, db_session)
-
 
 
 @pytest.fixture

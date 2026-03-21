@@ -1,5 +1,8 @@
 from shared.brokers.events.base import BrokerEvent, BrokerEvents
-from shared.brokers.events.payment_service.schemas import PaymentPendingSchema, PaymentStatusSchema
+from shared.brokers.events.payment_service.schemas import (
+    PaymentPendingSchema,
+    PaymentStatusSchema,
+)
 from shared.brokers.events.payment_service.topics import PaymentServiceTopics
 
 
