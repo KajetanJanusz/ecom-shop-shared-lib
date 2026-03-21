@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from shared.exceptions.base import BaseHttpException
+from exceptions.base import BaseHttpException
 
 
 class NotFoundError(BaseHttpException):

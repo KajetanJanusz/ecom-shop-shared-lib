@@ -2,13 +2,13 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
-from typing import Type, NamedTuple
+from typing import NamedTuple, Type
 
 import orjson
 from immutabledict import immutabledict
 from pydantic import BaseModel, ValidationError
 
-from shared.brokers.events.base import BrokerTopics
+from brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 

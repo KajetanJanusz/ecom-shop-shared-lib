@@ -1,9 +1,9 @@
+import datetime
+from typing import Literal
+
 import jwt
 from fastapi import Request
 from pydantic import BaseModel, ValidationError
-from typing import Literal
-import datetime
-
 from starlette.responses import JSONResponse
 
 

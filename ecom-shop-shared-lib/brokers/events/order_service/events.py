@@ -1,10 +1,10 @@
-from shared.brokers.events.base import BrokerEvent, BrokerEvents
-from shared.brokers.events.order_service.schemas import (
+from brokers.events.base import BrokerEvent, BrokerEvents
+from brokers.events.order_service.schemas import (
     OrderCreatedSchema,
     OrderPaidSchema,
     OrderCompletedSchema,
 )
-from shared.brokers.events.order_service.topics import OrderServiceTopics
+from brokers.events.order_service.topics import OrderServiceTopics
 
 
 class OrderServiceEvents(BrokerEvents):

@@ -7,7 +7,7 @@ from starlette.datastructures import Headers
 from starlette.requests import Request
 from starlette.responses import Response
 
-from shared.middlewares.auth import AuthMiddleware, TokenPayload
+from middlewares.auth import AuthMiddleware, TokenPayload
 
 _KEY = "123456789123456789123456789123456789"
 _ALGORITHM = "HS256"

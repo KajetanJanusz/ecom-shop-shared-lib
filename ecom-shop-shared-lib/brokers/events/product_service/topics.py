@@ -1,4 +1,4 @@
-from shared.brokers.events.base import BrokerTopics
+from brokers.events.base import BrokerTopics
 
 
 class ProductServiceTopics(BrokerTopics):
