@@ -1,15 +1,11 @@
 from dataclasses import dataclass
-from enum import Enum, StrEnum
+from enum import StrEnum
 from typing import Type
 
 from pydantic import BaseModel
 
 
 class BrokerTopics(StrEnum):
-    pass
-
-
-class BrokerEvents(Enum):
     pass
 
 

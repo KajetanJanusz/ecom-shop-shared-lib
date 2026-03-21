@@ -1,4 +1,4 @@
-from ecom_shop_shared_lib.brokers.events.base import BrokerEvent, BrokerEvents
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent
 from ecom_shop_shared_lib.brokers.events.product_service.schemas import (
     ProductCreatedSchema,
     ProductUpdatedSchema,
@@ -8,10 +8,10 @@ from ecom_shop_shared_lib.brokers.events.product_service.topics import (
 )
 
 
-class ProductServiceEvents(BrokerEvents):
+class ProductServiceEvents:
     PRODUCT_CREATED = BrokerEvent(
-        ProductServiceTopics.PRODUCT_CREATED, ProductCreatedSchema
+        topic=ProductServiceTopics.PRODUCT_CREATED, schema=ProductCreatedSchema
     )
     PRODUCT_UPDATED = BrokerEvent(
-        ProductServiceTopics.PRODUCT_UPDATED, ProductUpdatedSchema
+        topic=ProductServiceTopics.PRODUCT_UPDATED, schema=ProductUpdatedSchema
     )

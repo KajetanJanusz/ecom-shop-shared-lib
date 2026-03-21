@@ -1,4 +1,4 @@
-from ecom_shop_shared_lib.brokers.events.base import BrokerEvent, BrokerEvents
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent
 from ecom_shop_shared_lib.brokers.events.order_service.schemas import (
     OrderCreatedSchema,
     OrderPaidSchema,
@@ -7,7 +7,7 @@ from ecom_shop_shared_lib.brokers.events.order_service.schemas import (
 from ecom_shop_shared_lib.brokers.events.order_service.topics import OrderServiceTopics
 
 
-class OrderServiceEvents(BrokerEvents):
+class OrderServiceEvents:
     ORDER_CREATED = BrokerEvent(
         topic=OrderServiceTopics.ORDER_CREATED, schema=OrderCreatedSchema
     )
