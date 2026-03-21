@@ -7,7 +7,7 @@ from starlette.datastructures import Headers
 from starlette.requests import Request
 from starlette.responses import Response
 
-from middlewares.auth import AuthMiddleware, TokenPayload
+from middlewares.auth import AuthMiddleware, TokenPayload, UserInfo
 
 _KEY = "123456789123456789123456789123456789"
 _ALGORITHM = "HS256"
@@ -133,7 +133,7 @@ class TestAuthMiddleware:
         await middleware(request, _call_next)
 
         # Assert
-        assert isinstance(request.state.user, TokenPayload)
+        assert isinstance(request.state.user, UserInfo)
         assert request.state.user.user_id == user_id
 
     async def test_when_admin_token_sets_admin_true_on_request_state(self, middleware):
@@ -146,16 +146,3 @@ class TestAuthMiddleware:
         # Assert
         assert request.state.user.admin is True
 
-    async def test_when_refresh_token_sets_correct_type_on_request_state(
-        self, middleware
-    ):
-        # Arrange
-        request = _make_request(
-            {"Authorization": f"Bearer {_make_token(token_type='refresh')}"}
-        )
-
-        # Act
-        await middleware(request, _call_next)
-
-        # Assert
-        assert request.state.user.type == "refresh"

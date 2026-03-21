@@ -13,7 +13,7 @@ class BrokerEvents(Enum):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class BrokerEvent:
     topic: BrokerTopics
     schema: Type[BaseModel]

@@ -6,8 +6,8 @@ from confluent_kafka.aio import AIOConsumer, AIOProducer
 from immutabledict import immutabledict
 from pydantic import BaseModel
 
-from brokers.clients.base import AsyncBaseClient, TopicEntry
-from brokers.events.base import BrokerTopics
+from ecom_shop_shared_lib.brokers.clients.base import AsyncBaseClient, TopicEntry
+from ecom_shop_shared_lib.brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 
