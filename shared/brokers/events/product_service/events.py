@@ -1,6 +1,6 @@
-from events.base import BrokerEvent, BrokerEvents
-from events.product_service.schemas import ProductCreatedSchema, ProductUpdatedSchema
-from events.product_service.topics import ProductServiceTopics
+from shared.brokers.events.base import BrokerEvent, BrokerEvents
+from shared.brokers.events.product_service.schemas import ProductCreatedSchema, ProductUpdatedSchema
+from shared.brokers.events.product_service.topics import ProductServiceTopics
 
 
 class ProductServiceEvents(BrokerEvents):

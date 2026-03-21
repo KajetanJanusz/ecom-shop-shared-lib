@@ -7,8 +7,8 @@ from immutabledict import immutabledict
 from confluent_kafka.aio import AIOProducer, AIOConsumer
 from pydantic import BaseModel
 
-from clients.base import AsyncBaseClient, TopicEntry
-from events.base import BrokerTopics
+from shared.brokers.clients.base import AsyncBaseClient, TopicEntry
+from shared.brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 
