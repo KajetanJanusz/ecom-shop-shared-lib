@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from exceptions.base import BaseHttpException
+from ecom_shop_shared_lib.exceptions.base import BaseHttpException
 
 
 class NotFoundError(BaseHttpException):
