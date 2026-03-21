@@ -1,4 +1,4 @@
-from brokers.events.base import BrokerEvent, BrokerEvents
+from brokers.events.base import BrokerEvent
 from brokers.events.product_service.schemas import (
     ProductCreatedSchema,
     ProductUpdatedSchema,
@@ -6,10 +6,10 @@ from brokers.events.product_service.schemas import (
 from brokers.events.product_service.topics import ProductServiceTopics
 
 
-class ProductServiceEvents(BrokerEvents):
+class ProductServiceEvents:
     PRODUCT_CREATED = BrokerEvent(
-        ProductServiceTopics.PRODUCT_CREATED, ProductCreatedSchema
+        topic=ProductServiceTopics.PRODUCT_CREATED, schema=ProductCreatedSchema
     )
     PRODUCT_UPDATED = BrokerEvent(
-        ProductServiceTopics.PRODUCT_UPDATED, ProductUpdatedSchema
+        topic=ProductServiceTopics.PRODUCT_UPDATED, schema=ProductUpdatedSchema
     )

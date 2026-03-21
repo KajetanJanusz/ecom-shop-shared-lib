@@ -1,4 +1,4 @@
-from brokers.events.base import BrokerEvent, BrokerEvents
+from brokers.events.base import BrokerEvent
 from brokers.events.payment_service.schemas import (
     PaymentPendingSchema,
     PaymentStatusSchema,
@@ -6,13 +6,13 @@ from brokers.events.payment_service.schemas import (
 from brokers.events.payment_service.topics import PaymentServiceTopics
 
 
-class PaymentServiceEvents(BrokerEvents):
+class PaymentServiceEvents:
     PAYMENT_PENDING = BrokerEvent(
-        PaymentServiceTopics.PAYMENT_PENDING, PaymentPendingSchema
+        topic=PaymentServiceTopics.PAYMENT_PENDING, schema=PaymentPendingSchema
     )
     PAYMENT_SUCCESS = BrokerEvent(
-        PaymentServiceTopics.PAYMENT_SUCCESS, PaymentStatusSchema
+        topic=PaymentServiceTopics.PAYMENT_SUCCESS, schema=PaymentStatusSchema
     )
     PAYMENT_FAILED = BrokerEvent(
-        PaymentServiceTopics.PAYMENT_FAILED, PaymentStatusSchema
+        topic=PaymentServiceTopics.PAYMENT_FAILED, schema=PaymentStatusSchema
     )
