@@ -1,9 +1,9 @@
-from brokers.events.base import BrokerEvent
-from brokers.events.user_service.schemas import (
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent
+from ecom_shop_shared_lib.brokers.events.user_service.schemas import (
     UserCreatedSchema,
     UserLoggedSchema,
 )
-from brokers.events.user_service.topics import UserServiceTopics
+from ecom_shop_shared_lib.brokers.events.user_service.topics import UserServiceTopics
 
 
 class UserServiceEvents:

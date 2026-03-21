@@ -1,10 +1,10 @@
-from brokers.events.base import BrokerEvent
-from brokers.events.order_service.schemas import (
+from ecom_shop_shared_lib.brokers.events.base import BrokerEvent
+from ecom_shop_shared_lib.brokers.events.order_service.schemas import (
     OrderCreatedSchema,
     OrderPaidSchema,
     OrderCompletedSchema,
 )
-from brokers.events.order_service.topics import OrderServiceTopics
+from ecom_shop_shared_lib.brokers.events.order_service.topics import OrderServiceTopics
 
 
 class OrderServiceEvents:

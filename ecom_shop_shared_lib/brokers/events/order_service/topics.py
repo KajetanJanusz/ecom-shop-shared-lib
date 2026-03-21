@@ -1,4 +1,4 @@
-from brokers.events.base import BrokerTopics
+from ecom_shop_shared_lib.brokers.events.base import BrokerTopics
 
 
 class OrderServiceTopics(BrokerTopics):

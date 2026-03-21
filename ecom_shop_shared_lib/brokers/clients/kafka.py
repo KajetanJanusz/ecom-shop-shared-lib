@@ -6,8 +6,8 @@ from confluent_kafka.aio import AIOConsumer, AIOProducer
 from immutabledict import immutabledict
 from pydantic import BaseModel
 
-from brokers.clients.base import AsyncBaseClient, TopicEntry
-from brokers.events.base import BrokerTopics
+from ecom_shop_shared_lib.brokers.clients.base import AsyncBaseClient, TopicEntry
+from ecom_shop_shared_lib.brokers.events.base import BrokerTopics
 
 logger = logging.getLogger(__name__)
 
@@ -20,21 +20,12 @@ class AsyncKafkaClient(AsyncBaseClient):
         self.consumer: AIOConsumer | None = None
 
     async def connect(self) -> None:
-        self.producer = AIOProducer(
-            producer_conf={
-                "bootstrap.servers": self.broker_url,
-            }
-        )
-        self.consumer = AIOConsumer(
-            {
-                "bootstrap.servers": self.broker_url,
-                "group.id": self.group_id,
-                "auto.offset.reset": "earliest",
-            }
-        )
+        self._connect_producer()
+        self._connect_consumer()
 
     async def disconnect(self) -> None:
         if self.producer:
+            await self.producer.flush()
             await self.producer.close()
 
         if self.consumer:
@@ -42,7 +33,7 @@ class AsyncKafkaClient(AsyncBaseClient):
 
     async def produce(self, topic: str, key: uuid.UUID, value: BaseModel) -> None:
         if self.producer is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            self._connect_producer()
 
         await self.producer.produce(
             topic=topic,
@@ -55,7 +46,7 @@ class AsyncKafkaClient(AsyncBaseClient):
         topic_handlers: immutabledict[BrokerTopics, TopicEntry],
     ) -> None:
         if self.consumer is None:
-            raise RuntimeError("Client not connected. Call connect() first.")
+            self._connect_consumer()
 
         await self.consumer.subscribe(list(topic_handlers.keys()))
 
@@ -82,3 +73,19 @@ class AsyncKafkaClient(AsyncBaseClient):
                 schema=entry.schema,
                 handler=entry.handler,
             )
+
+    def _connect_producer(self) -> None:
+        self.producer = AIOProducer(
+            producer_conf={
+                "bootstrap.servers": self.broker_url,
+            }
+        )
+
+    def _connect_consumer(self) -> None:
+        self.consumer = AIOConsumer(
+            {
+                "bootstrap.servers": self.broker_url,
+                "group.id": self.group_id,
+                "auto.offset.reset": "earliest",
+            }
+        )

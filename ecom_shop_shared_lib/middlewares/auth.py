@@ -7,11 +7,14 @@ from pydantic import BaseModel, ValidationError
 from starlette.responses import JSONResponse
 
 
-class TokenPayload(BaseModel):
+class UserInfo(BaseModel):
     user_id: str
+    admin: bool
+
+
+class TokenPayload(UserInfo):
     exp: datetime.datetime
     type: Literal["access", "refresh"]
-    admin: bool
 
 
 class AuthMiddleware:
@@ -42,7 +45,8 @@ class AuthMiddleware:
         except (jwt.InvalidTokenError, jwt.DecodeError, ValidationError):
             return JSONResponse(content="Token is invalid or expired", status_code=401)
 
-        request.state.user = token_payload
+        user_info = UserInfo(**token_payload.model_dump())
+        request.state.user = user_info
 
         response = await call_next(request)
 

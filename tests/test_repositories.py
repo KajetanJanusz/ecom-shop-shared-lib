@@ -3,9 +3,9 @@ import uuid
 import pytest
 from pydantic import BaseModel
 
-from models import User
-from exceptions.custom import NotFoundError
-from repositories.base import ModelFields
+from db_models import User
+from ecom_shop_shared_lib.exceptions.custom import NotFoundError
+from ecom_shop_shared_lib.repositories.base import ModelFields
 
 
 class CreateUserSchema(BaseModel):
