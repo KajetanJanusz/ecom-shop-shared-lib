@@ -67,6 +67,7 @@ class TestOutboxMixin:
         event = SampleOutboxEvent(
             event_type=TEST_EVENT,
             status=EventStatus.UNPROCESSED,
+            payload={"test": "payload"},
         )
 
         # Act
@@ -79,6 +80,8 @@ class TestOutboxMixin:
         assert isinstance(event.created_at, datetime)
         assert isinstance(event.updated_at, datetime)
         assert event.attempts == 1
+        assert event.status == EventStatus.UNPROCESSED
+        assert event.payload == {"test": "payload"}
         assert event.last_error is None
 
     async def test_fields_are_persisted(self, mixin_session):
@@ -88,6 +91,7 @@ class TestOutboxMixin:
             status=EventStatus.FAILED,
             attempts=3,
             last_error="Connection timeout",
+            payload={"test": "payload"},
         )
 
         # Act
@@ -100,3 +104,4 @@ class TestOutboxMixin:
         assert event.status == EventStatus.FAILED
         assert event.attempts == 3
         assert event.last_error == "Connection timeout"
+        assert event.payload == {"test": "payload"}
