@@ -7,7 +7,7 @@ from starlette.datastructures import Headers
 from starlette.requests import Request
 from starlette.responses import Response
 
-from middlewares.auth import AuthMiddleware, TokenPayload, UserInfo
+from middlewares.auth import AuthMiddleware, UserInfo
 
 _KEY = "123456789123456789123456789123456789"
 _ALGORITHM = "HS256"
@@ -145,4 +145,3 @@ class TestAuthMiddleware:
 
         # Assert
         assert request.state.user.admin is True
-

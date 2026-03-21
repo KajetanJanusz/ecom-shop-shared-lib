@@ -3,7 +3,9 @@ from ecom_shop_shared_lib.brokers.events.payment_service.schemas import (
     PaymentPendingSchema,
     PaymentStatusSchema,
 )
-from ecom_shop_shared_lib.brokers.events.payment_service.topics import PaymentServiceTopics
+from ecom_shop_shared_lib.brokers.events.payment_service.topics import (
+    PaymentServiceTopics,
+)
 
 
 class PaymentServiceEvents(BrokerEvents):

@@ -11,6 +11,7 @@ class UserInfo(BaseModel):
     user_id: str
     admin: bool
 
+
 class TokenPayload(UserInfo):
     exp: datetime.datetime
     type: Literal["access", "refresh"]

@@ -3,7 +3,9 @@ from ecom_shop_shared_lib.brokers.events.product_service.schemas import (
     ProductCreatedSchema,
     ProductUpdatedSchema,
 )
-from ecom_shop_shared_lib.brokers.events.product_service.topics import ProductServiceTopics
+from ecom_shop_shared_lib.brokers.events.product_service.topics import (
+    ProductServiceTopics,
+)
 
 
 class ProductServiceEvents(BrokerEvents):
